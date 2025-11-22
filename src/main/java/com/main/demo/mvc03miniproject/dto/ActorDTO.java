@@ -1,4 +1,4 @@
-package com.main.demo.mvc02miniproject.dto;
+package com.main.demo.mvc03miniproject.dto;
 
 
 import jakarta.persistence.Column;

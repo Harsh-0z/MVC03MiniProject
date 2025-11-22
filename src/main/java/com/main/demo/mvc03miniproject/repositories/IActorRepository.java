@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository;
 
 
 @Repository
-public interface IActroRepository extends JpaRepository<ActorEntity, Integer> {
+public interface IActorRepository extends JpaRepository<ActorEntity, Integer> {
 }

@@ -1,16 +1,10 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: harsh
-  Date: 20-11-2025
-  Time: 13:18
-  To change this template use File | Settings | File Templates.
---%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html>
-  <head>
-    <title>$Title$</title>
-  </head>
-  <body>
-  $END$
-  </body>
-</html>
+<%@ page isELIgnored="false" %>
+
+<h1 style="color:orange; text-align:center;">Client Error (4xx)</h1>
+
+<div style="text-align:center; color:orange;">
+    <b>Status: ${status}</b><br>
+    <b>Error: ${error}</b><br>
+    <b>Message: ${message}</b><br>
+    <b>Path: ${path}</b><br>
+</div>

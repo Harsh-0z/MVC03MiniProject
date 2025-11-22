@@ -1,4 +1,4 @@
-package com.main.demo.mvc02miniproject.entity;
+package com.main.demo.mvc03miniproject.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -6,6 +6,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.SQLRestriction;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
@@ -14,7 +16,13 @@ import java.time.LocalDateTime;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Table
+@Table(name = "ACTOR_ENTITY")
+//It makes sure that whenever delete statement is executed using pure jpa methods this statement executes
+@SQLDelete(sql ="UPDATE ACTOR_ENTITY SET ACTIVE_SW='inactive' WHERE AID=? AND UPDATE_COUNT=?")
+//this restricts the select statement that whenever select happen ignore the inactive part
+@SQLRestriction("ACTIVE_SW != 'inactive'")
+
+
 public class ActorEntity {
     //Data properties
     @Id
