@@ -12,4 +12,8 @@
              width="150px">
     </a>
 
+    <a href="${pageContext.request.contextPath}/page_report">
+        Report By Pagination
+    </a>
+
 </div>

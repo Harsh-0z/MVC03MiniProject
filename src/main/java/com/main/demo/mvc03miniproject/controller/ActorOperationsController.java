@@ -6,6 +6,10 @@ import com.main.demo.mvc03miniproject.service.IActorMgmtService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -98,6 +102,27 @@ public class ActorOperationsController {
 
         return "redirect:/report";   // PRG pattern
     }
+    // using the Pageable default so if no page and size info comes than it will create automatically by this annotation
+    @GetMapping("/page_report")
+    public String showReportByPagination(Map<String, Object> model,
+                                         @PageableDefault(page=0,size=3,sort="addrs",direction = Sort.Direction.ASC)Pageable pageable)
+    {
+        // 1. Call the service layer method to get the paginated result (Page<ActorDTO>)
+        Page<ActorDTO> pageDTO = actorMgmtService.findActorByPage(pageable);
+
+        // 2. Add the Page object to the model for the JSP
+        // The JSP will access the content via 'pageDTO.content'
+        model.put("pageData", pageDTO);
+
+        // 3. Add parameters needed for navigation links (Next/Prev/Page numbers)
+        // We use pageDTO.getNumber() to get the current page number (zero-based)
+        model.put("currentPage", pageDTO.getNumber());
+        model.put("totalPages", pageDTO.getTotalPages());
+
+        // 4. Return the view name
+        return "show_page_report";
+    }
+
 
 
 

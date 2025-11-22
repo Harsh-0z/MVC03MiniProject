@@ -6,6 +6,9 @@ import com.main.demo.mvc03miniproject.exception.ActorNotFoundException;
 import com.main.demo.mvc03miniproject.repositories.IActorRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -93,6 +96,33 @@ public class ActorService implements IActorMgmtService {
         actorRepo.delete(actor);
 
         return "Actor with ID " + id + " deleted successfully";
+    }
+
+    @Override
+    public Page<ActorDTO> findActorByPage(Pageable pageable) {
+        //use repo to get the page of actorentity using the pageable
+        Page<ActorEntity> actorEntities = actorRepo.findAll(pageable);
+
+        //convert List entity to List dto
+
+        //----> first convert the Page<ActorEntity> into the List<ActorEntity>
+        List<ActorEntity> actors = actorEntities.getContent();
+
+        List<ActorDTO>  dtos= new ArrayList<>();
+        for (ActorEntity actorEntity : actors) {
+            ActorDTO actorDTO = new ActorDTO();
+            BeanUtils.copyProperties(actorEntity, actorDTO);
+            dtos.add(actorDTO);
+        }
+
+
+
+
+        //here we have to create the page type object by using its implementation class PageImpl
+        Page<ActorDTO> actorDTOs = new PageImpl<ActorDTO>(dtos , pageable, actorRepo.count());
+
+
+        return actorDTOs;
     }
 
 }
